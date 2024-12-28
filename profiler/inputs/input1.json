@@ -1,0 +1,27 @@
+{
+    "charts": [
+        {
+            "chart_type": "latency",
+            "title": "Array sum, single threaded",
+            "file_id": "instruction_level_parallelism",
+            "runs": [
+                {
+                    "binary_path": "./instruction_level_optimization/bin/reduce.o",
+                    "args": ["naive"]
+                },
+                {
+                    "binary_path": "./instruction_level_optimization/bin/reduce.o",
+                    "args": ["unroll"]
+                },
+                {
+                    "binary_path": "./instruction_level_optimization/bin/reduce.o",
+                    "args": ["simd"]
+                },
+                {
+                    "binary_path": "./instruction_level_optimization/bin/reduce.o",
+                    "args": ["simd_unroll"]
+                }
+            ]
+        }
+    ]
+}

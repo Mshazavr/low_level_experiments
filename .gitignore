@@ -1,0 +1,5 @@
+**/venv/
+**/*.o
+dump.md
+papers.md
+thesis_ideas.md
