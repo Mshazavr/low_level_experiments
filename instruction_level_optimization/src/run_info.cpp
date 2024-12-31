@@ -1,15 +1,8 @@
-#pragma once
-
 #include <vector>
 #include <string>
 #include <iostream>
 
-struct RunInfo {
-    std::string name;
-    int latency_ms; 
-    std::vector<std::string> attr_names;
-    std::vector<std::string> attr_values;
-};
+#include "run_info.hpp"
 
 std::ostream &operator<<(std::ostream &os, const std::vector<std::string> &values) {
     os << "[";

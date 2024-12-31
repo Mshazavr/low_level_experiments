@@ -1,7 +1,7 @@
-#pragma once 
-
 #include <cstdarg>
 #include <cstdio>
+
+#include "debug.hpp"
 
 namespace formats {
     const char *LIGHT_YELLOW = "\033[1;33m";
@@ -13,9 +13,9 @@ namespace formats {
     const char *END = "\033[0m";
 }
 
+void _debug(const char *fmt, ...) {
 #ifdef DEBUG
 
-inline void _debug(const char *fmt, ...) {
     va_list args;
     va_start(args, fmt);
 
@@ -31,12 +31,12 @@ inline void _debug(const char *fmt, ...) {
     std::fprintf(stderr, "\n");
 
     va_end(args);
+
+#endif
 }
 
-inline void _debug_nl() {
+void _debug_nl() {
+#ifdef DEBUG
     _debug("%s", "");
-}
-#else
-#define _debug(...) ((void)0)
-#define _debug_nl(...) ((void)0)
 #endif
+}
