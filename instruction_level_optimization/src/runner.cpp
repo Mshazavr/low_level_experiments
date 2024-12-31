@@ -23,7 +23,7 @@ int run_sum(int32_t *a, uint32_t n, int32_t expected_output, SumMode mode) {
     for (int i = 0; i < NUM_EXPERIMENTS; ++i) {
         int start_ms = get_microseconds();
         int32_t result = 0;
-            if ( mode == SumMode::NAIVE                 ) result = sum_naive(a, n);
+             if ( mode == SumMode::NAIVE                 ) result = sum_naive(a, n);
         else if ( mode == SumMode::UNROLL                ) result = sum_unroll(a, n);
         else if ( mode == SumMode::SIMD                  ) result = sum_simd(a, n);
         else if ( mode == SumMode::SIMD_UNROLL           ) result = sum_simd_unroll(a, n);
