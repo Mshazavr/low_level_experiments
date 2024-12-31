@@ -1,0 +1,12 @@
+#pragma once
+
+enum SumMode{ 
+    NAIVE, 
+    UNROLL,
+    SIMD,
+    SIMD_UNROLL,
+    THREADED_STRIDES, 
+    THREADED_BLOCKS,
+    THREADED_STRIDES_SIMD,
+    THREADED_BLOCKS_SIMD,
+};

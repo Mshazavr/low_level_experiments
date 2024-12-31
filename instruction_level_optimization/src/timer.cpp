@@ -1,6 +1,5 @@
-#pragma once 
-
 #include <sys/time.h>
+#include "timer.hpp"
 
 long get_microseconds(){
 	timeval current_time;

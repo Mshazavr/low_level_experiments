@@ -78,8 +78,9 @@ def create_latency_bar_chart(runs: list[RunInfo], title: str="", file_id: str=""
     ax.set_xlabel('Version')
     ax.set_ylabel('Latenc (ms)')
     ax.set_title(title)
-
-    plt.savefig(f"profiler/outputs/latency_{file_id}.png", format='png', dpi=300)
+    
+    plt.setp(ax.get_xticklabels(), rotation = 45)
+    plt.savefig(f"profiler/outputs/latency_{file_id}.png", format='png', bbox_inches = 'tight', dpi=300)
 
 
 if __name__ == "__main__":

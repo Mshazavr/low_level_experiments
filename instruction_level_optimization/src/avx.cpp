@@ -1,20 +1,5 @@
-#pragma once 
-
-#include "stdbool.h"
-#include <iostream>
-
-#include "utils/debug.hpp"
-
-#ifdef __AVX2__
-#pragma GCC target("avx2")
-const bool AVX2_AVAILABLE = true;
-#else 
-const bool AVX2_AVAILABLE = false;
-#endif
-
-
-
-
+#include "avx.hpp"
+#include "debug.hpp"
 
 void print_extension_availability() {
     _debug("%s", "+-----------+-----------+");

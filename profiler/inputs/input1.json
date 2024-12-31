@@ -6,20 +6,43 @@
             "file_id": "instruction_level_parallelism",
             "runs": [
                 {
-                    "binary_path": "./instruction_level_optimization/bin/reduce.o",
+                    "binary_path": "./instruction_level_optimization/bin/reduce_runner",
                     "args": ["naive"]
                 },
                 {
-                    "binary_path": "./instruction_level_optimization/bin/reduce.o",
+                    "binary_path": "./instruction_level_optimization/bin/reduce_runner",
                     "args": ["unroll"]
                 },
                 {
-                    "binary_path": "./instruction_level_optimization/bin/reduce.o",
+                    "binary_path": "./instruction_level_optimization/bin/reduce_runner",
                     "args": ["simd"]
                 },
                 {
-                    "binary_path": "./instruction_level_optimization/bin/reduce.o",
+                    "binary_path": "./instruction_level_optimization/bin/reduce_runner",
                     "args": ["simd_unroll"]
+                }
+            ]
+        },
+        {
+            "chart_type": "latency",
+            "title": "Array sum, multi-threaded",
+            "file_id": "threaded_parallelism",
+            "runs": [
+                {
+                    "binary_path": "./instruction_level_optimization/bin/reduce_runner",
+                    "args": ["threaded_strides"]
+                },
+                {
+                    "binary_path": "./instruction_level_optimization/bin/reduce_runner",
+                    "args": ["threaded_blocks"]
+                },
+                {
+                    "binary_path": "./instruction_level_optimization/bin/reduce_runner",
+                    "args": ["threaded_strides_simd"]
+                },
+                {
+                    "binary_path": "./instruction_level_optimization/bin/reduce_runner",
+                    "args": ["threaded_blocks_simd"]
                 }
             ]
         }

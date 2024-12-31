@@ -1,5 +1,9 @@
 **/venv/
 **/*.o
+instruction_level_optimization/bin/
+instruction_level_optimization/build/
+scratch/
+.vscode/
 dump.md
 papers.md
 thesis_ideas.md
