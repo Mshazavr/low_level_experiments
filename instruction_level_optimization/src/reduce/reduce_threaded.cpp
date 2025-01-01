@@ -7,7 +7,7 @@
 #include <string>
 #include <pthread.h>
 
-#include "avx.hpp"
+#include "machine_info.hpp"
 #include "debug.hpp"
 #include "timer.hpp"
 #include "run_info.hpp"

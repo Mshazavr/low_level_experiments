@@ -13,3 +13,5 @@ struct RunInfo {
 std::ostream &operator<<(std::ostream &os, const std::vector<std::string> &values);
 
 std::ostream &operator<<(std::ostream &os, const RunInfo &run_info);
+
+std::ostream &operator<<(std::ostream &os, const std::vector<RunInfo> &run_infos);
