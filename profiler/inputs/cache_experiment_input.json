@@ -1,0 +1,15 @@
+{
+    "charts": [
+        {
+            "chart_type": "plot",
+            "title": "Cache stress test - array shuffling",
+            "file_id": "cache_stress_shuffling",
+            "runs": [
+                {
+                    "binary_path": "./instruction_level_optimization/bin/cache_experiment_runner",
+                    "args": []
+                }
+            ]
+        }
+    ]
+}

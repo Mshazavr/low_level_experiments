@@ -25,3 +25,16 @@ std::ostream &operator<<(std::ostream &os, const RunInfo &run_info) {
     os << "}";
     return os;
 }
+
+
+std::ostream &operator<<(std::ostream &os, const std::vector<RunInfo> &run_infos) {
+    os << "[\n";
+    for (size_t i = 0; i + 1 < run_infos.size(); ++i) {
+        os << run_infos[i] << ",\n";
+    }
+    if (run_infos.size() > 0) {
+        os << run_infos[run_infos.size() - 1] << "\n";
+    }
+    os << "]";
+    return os;
+}

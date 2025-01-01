@@ -1,7 +1,7 @@
 {
     "charts": [
         {
-            "chart_type": "latency",
+            "chart_type": "bar",
             "title": "Array sum, single threaded",
             "file_id": "instruction_level_parallelism",
             "runs": [
@@ -24,7 +24,7 @@
             ]
         },
         {
-            "chart_type": "latency",
+            "chart_type": "bar",
             "title": "Array sum, multi-threaded",
             "file_id": "threaded_parallelism",
             "runs": [

@@ -6,7 +6,7 @@
 #include <algorithm>
 #include <string>
 
-#include "avx.hpp"
+#include "machine_info.hpp"
 #include "debug.hpp"
 #include "timer.hpp"
 #include "run_info.hpp"
@@ -14,13 +14,13 @@
 #include "reduce_threaded.hpp"
 
 
-int run_sum(int32_t *a, uint32_t n, int32_t expected_output, SumMode mode) {
+int time_sum(int32_t *a, uint32_t n, int32_t expected_output, SumMode mode) {
     _debug("running sum with mode %d...", mode);
     
-    constexpr int NUM_EXPERIMENTS = 20;
+    constexpr int NUM_ITERATIONS = 20;
 
     int total_ms = 0;
-    for (int i = 0; i < NUM_EXPERIMENTS; ++i) {
+    for (int i = 0; i < NUM_ITERATIONS; ++i) {
         int start_ms = get_microseconds();
         int32_t result = 0;
              if ( mode == SumMode::NAIVE                 ) result = sum_naive(a, n);
@@ -45,7 +45,7 @@ int run_sum(int32_t *a, uint32_t n, int32_t expected_output, SumMode mode) {
         total_ms += (end_ms - start_ms);
     }
 
-    return total_ms / NUM_EXPERIMENTS;
+    return total_ms / NUM_ITERATIONS;
 }
 
 
@@ -54,7 +54,7 @@ int main (int argc, char **argv) {
     print_extension_availability();
     _debug_nl();
 
-    const int N = 100000000;
+    constexpr int N = 100000000;
     int32_t *a = (int32_t*)aligned_alloc(32, N * sizeof(int32_t));
     int32_t sum = 0;
     for (uint32_t i = 0; i < N; ++i) {
@@ -63,19 +63,19 @@ int main (int argc, char **argv) {
     }
 
     std::string mode = argc < 2 ? "naive" : argv[1];
-    int latency;
-         if ( mode == "naive"                 ) latency = run_sum(a, N, sum, SumMode::NAIVE);
-    else if ( mode == "unroll"                ) latency = run_sum(a, N, sum, SumMode::UNROLL);
-    else if ( mode == "simd"                  ) latency = run_sum(a, N, sum, SumMode::SIMD);
-    else if ( mode == "simd_unroll"           ) latency = run_sum(a, N, sum, SumMode::SIMD_UNROLL);
-    else if ( mode == "threaded_strides"      ) latency = run_sum(a, N, sum, SumMode::THREADED_STRIDES);
-    else if ( mode == "threaded_blocks"       ) latency = run_sum(a, N, sum, SumMode::THREADED_BLOCKS);
-    else if ( mode == "threaded_strides_simd" ) latency = run_sum(a, N, sum, SumMode::THREADED_STRIDES_SIMD);
-    else if ( mode == "threaded_blocks_simd"  ) latency = run_sum(a, N, sum, SumMode::THREADED_BLOCKS_SIMD);
+    int latency_ms;
+         if ( mode == "naive"                 ) latency_ms = time_sum(a, N, sum, SumMode::NAIVE);
+    else if ( mode == "unroll"                ) latency_ms = time_sum(a, N, sum, SumMode::UNROLL);
+    else if ( mode == "simd"                  ) latency_ms = time_sum(a, N, sum, SumMode::SIMD);
+    else if ( mode == "simd_unroll"           ) latency_ms = time_sum(a, N, sum, SumMode::SIMD_UNROLL);
+    else if ( mode == "threaded_strides"      ) latency_ms = time_sum(a, N, sum, SumMode::THREADED_STRIDES);
+    else if ( mode == "threaded_blocks"       ) latency_ms = time_sum(a, N, sum, SumMode::THREADED_BLOCKS);
+    else if ( mode == "threaded_strides_simd" ) latency_ms = time_sum(a, N, sum, SumMode::THREADED_STRIDES_SIMD);
+    else if ( mode == "threaded_blocks_simd"  ) latency_ms = time_sum(a, N, sum, SumMode::THREADED_BLOCKS_SIMD);
 
     RunInfo result = {
         .name=mode, 
-        .latency_ms=latency, 
+        .latency_ms=latency_ms, 
         .attr_names={"n"}, 
         .attr_values{std::to_string(N)}
     };
