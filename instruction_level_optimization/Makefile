@@ -9,7 +9,10 @@ objects = arena_allocator.o \
 		  machine_info.o \
 		  timer.o \
 		  matrix.o \
-		  run_info.o 
+		  run_info.o \
+		  cpu_gemm_runner.o \
+		  custom_kernels.o \
+		  mkl_kernels.o
 
 binaries = cpu_gemm
 test_binaries = cpu_gemm_tests
@@ -24,7 +27,7 @@ test_binaries = cpu_gemm_tests
 all: dirs $(binaries)
 
 
-#### bin and build directories
+#################################################### bin and build directories
 
 dirs:
 	@mkdir -p $(obj_dir)
@@ -34,7 +37,7 @@ $(bin_dir):
 	@mkdir -p $(bin_dir)
 
 
-#### universal objects
+##################################################### universal objects
 
 arena_allocator.o: src/utils/arena_allocator.cpp
 debug.o: src/utils/debug.cpp
@@ -44,14 +47,19 @@ matrix.o: src/matrix.cpp
 run_info.o: src/run_info.cpp
 
 
-#### cpu_gemm 
+
+##################################################### cpu_gemm 
+
+cpu_gemm_runner.o: src/cpu_gemm/cpu_gemm_runner.cpp
+custom_kernels.o: src/cpu_gemm/custom_kernels.cpp
+mkl_kernels.o: src/cpu_gemm/mkl_kernels.cpp
 
 cpu_gemm: $(objects)
 	$(compiler) $(flags) src/cpu_gemm/main.cpp -o $(bin_dir)/cpu_gemm $(libs) $(addprefix $(obj_dir)/, $(objects))
 
 
 
-#### cpu_gemm tests
+########################## cpu_gemm tests
 
 cpu_gemm_tests: src/cpu_gemm/tests/test_loaders.cpp
 	$(compiler) $(flags) src/cpu_gemm/tests/test_loaders.cpp -o $(bin_dir)/cpu_gemm_tests $(libs) $(addprefix $(obj_dir)/, $(objects))
