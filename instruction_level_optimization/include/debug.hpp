@@ -2,6 +2,7 @@
 
 #include <cstdarg>
 #include <cstdio>
+#include <string>
 
 namespace formats {
     extern const char *LIGHT_YELLOW;
@@ -15,3 +16,5 @@ namespace formats {
 
 void _debug(const char *fmt, ...);
 void _debug_nl();
+
+void _log_test_result(std::string test_id, bool verdict);

@@ -2,6 +2,7 @@
 **/*.o
 instruction_level_optimization/bin/
 instruction_level_optimization/build/
+instruction_level_optimization/data/
 scratch/
 .vscode/
 dump.md
