@@ -10,14 +10,21 @@
 #include "debug.hpp"
 
 
-CRSMatrix _graph_to_crs(GraphMatrix &matrix, Arena &arena) {
-    double  *values    =  (double *)arena_alloc_aligned(arena, matrix.num_values       * sizeof(double),  alignof(double));
-    int32_t *columns   = (int32_t *)arena_alloc_aligned(arena, matrix.num_values       * sizeof(int32_t), alignof(int32_t));
-    int32_t *row_start = (int32_t *)arena_alloc_aligned(arena, ( matrix.num_rows + 1 ) * sizeof(int32_t), alignof(int32_t));
+CRSMatrix _graph_to_crs(GraphMatrix &matrix, Arena *arena) {
+    double *values;
+    int32_t *columns;
+    int32_t *row_start;
 
-    // double  *values    =  (double *)malloc(matrix.num_values       * sizeof(double));
-    // int32_t *columns   = (int32_t *)malloc(matrix.num_values       * sizeof(int32_t));
-    // int32_t *row_start = (int32_t *)malloc(( matrix.num_rows + 1 ) * sizeof(int32_t));
+    if (arena) {
+        values    =  (double *)arena_alloc_aligned(*arena, matrix.num_values       * sizeof(double),  alignof(double));
+        columns   = (int32_t *)arena_alloc_aligned(*arena, matrix.num_values       * sizeof(int32_t), alignof(int32_t));
+        row_start = (int32_t *)arena_alloc_aligned(*arena, ( matrix.num_rows + 1 ) * sizeof(int32_t), alignof(int32_t));
+    }
+    else {
+        values    =  (double *)malloc(matrix.num_values       * sizeof(double));
+        columns   = (int32_t *)malloc(matrix.num_values       * sizeof(int32_t));
+        row_start = (int32_t *)malloc(( matrix.num_rows + 1 ) * sizeof(int32_t));
+    }
 
     std::vector< int32_t> indices(matrix.num_values);
     for(int32_t i = 0; i < matrix.num_values; ++i) {
@@ -64,7 +71,7 @@ CRSMatrix _graph_to_crs(GraphMatrix &matrix, Arena &arena) {
 }
 
 
-GraphMatrix load_mtx_file_into_graph(const std::string &file_path, Arena &arena) {
+GraphMatrix load_mtx_file_into_graph(const std::string &file_path, Arena *arena) {
     _debug("loading %s into GraphMatrix", file_path.c_str());
     std::ifstream file(file_path);
     
@@ -91,13 +98,16 @@ GraphMatrix load_mtx_file_into_graph(const std::string &file_path, Arena &arena)
         if (num_read == 0) {
             iss >> num_rows >> num_columns >> num_values;
 
-            values  =  (double *)arena_alloc_aligned(arena, num_values * sizeof(double), alignof(double));
-            rows    = (int32_t *)arena_alloc_aligned(arena, num_values * sizeof(int32_t), alignof(int32_t));
-            columns = (int32_t *)arena_alloc_aligned(arena, num_values * sizeof(int32_t), alignof(int32_t));
-
-            // values  =  (double *)malloc(num_values * sizeof(double));
-            // rows    = (int32_t *)malloc(num_values * sizeof(int32_t));
-            // columns = (int32_t *)malloc(num_values * sizeof(int32_t));
+            if (arena) {
+                values  =  (double *)arena_alloc_aligned(*arena, num_values * sizeof(double), alignof(double));
+                rows    = (int32_t *)arena_alloc_aligned(*arena, num_values * sizeof(int32_t), alignof(int32_t));
+                columns = (int32_t *)arena_alloc_aligned(*arena, num_values * sizeof(int32_t), alignof(int32_t));
+            }
+            else {
+                values  =  (double *)malloc(num_values * sizeof(double));
+                rows    = (int32_t *)malloc(num_values * sizeof(int32_t));
+                columns = (int32_t *)malloc(num_values * sizeof(int32_t));
+            }
         } else {
             iss >> rows[num_read-1] >> columns[num_read-1] >> values[num_read-1];
             
@@ -119,7 +129,7 @@ GraphMatrix load_mtx_file_into_graph(const std::string &file_path, Arena &arena)
 }
 
 
-CRSMatrix load_mtx_file_into_crs(const std::string &file_path, Arena &arena) {
+CRSMatrix load_mtx_file_into_crs(const std::string &file_path, Arena *arena) {
     _debug("loading %s into CRSMatrix", file_path.c_str());
     GraphMatrix graph_matrix = load_mtx_file_into_graph(file_path, arena);
     return _graph_to_crs(graph_matrix, arena);

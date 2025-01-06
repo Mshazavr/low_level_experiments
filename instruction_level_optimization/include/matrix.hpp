@@ -226,11 +226,11 @@ typedef BCCSMatrix  bccs_matrix_f64;
 
 
 
-CRSMatrix _graph_to_crs(GraphMatrix &matrix, Arena &arena);
+CRSMatrix _graph_to_crs(GraphMatrix &matrix, Arena *arena);
 
 /*
 Entrypoint functions for loading .mtx files (matrix market file) 
 into different formats
 */
-GraphMatrix load_mtx_file_into_graph(const std::string &file_path, Arena &arena);
-CRSMatrix load_mtx_file_into_crs(const std::string &file_path, Arena &arena);
+GraphMatrix load_mtx_file_into_graph(const std::string &file_path, Arena *arena);
+CRSMatrix load_mtx_file_into_crs(const std::string &file_path, Arena *arena);

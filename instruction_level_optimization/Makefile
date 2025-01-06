@@ -55,14 +55,14 @@ custom_kernels.o: src/cpu_gemm/custom_kernels.cpp
 mkl_kernels.o: src/cpu_gemm/mkl_kernels.cpp
 
 cpu_gemm: $(objects)
-	$(compiler) $(flags) src/cpu_gemm/main.cpp -o $(bin_dir)/cpu_gemm $(libs) $(addprefix $(obj_dir)/, $(objects))
+	$(compiler) $(flags) src/cpu_gemm/main.cpp -o $(bin_dir)/cpu_gemm $(addprefix $(obj_dir)/, $(objects)) $(libs)
 
 
 
 ########################## cpu_gemm tests
 
 cpu_gemm_tests: src/cpu_gemm/tests/test_loaders.cpp
-	$(compiler) $(flags) src/cpu_gemm/tests/test_loaders.cpp -o $(bin_dir)/cpu_gemm_tests $(libs) $(addprefix $(obj_dir)/, $(objects))
+	$(compiler) $(flags) src/cpu_gemm/tests/test_loaders.cpp -o $(bin_dir)/cpu_gemm_tests $(addprefix $(obj_dir)/, $(objects)) $(libs)
 
 test: $(test_binaries)
 	@for exec in $(test_binaries); do \

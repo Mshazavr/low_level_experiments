@@ -10,29 +10,29 @@
 /******* kernel inspection and execution entrypoints *************************/
 /*****************************************************************************/
 
-void _run_inspection(CPUGEMMRunnerState &state, KernelType type, KernelImplementation implementation) {
+void _run_inspection(CPUGEMMRunnerState &state) {
     // dispatch the appropiate kernel inspection phase
-         if ( type == KernelType::SPGEMM__ && implementation == KernelImplementation::MKL__ )    run_spgemm_mkl_inspection(state);
-    else if ( type == KernelType::SPGEMM__ && implementation == KernelImplementation::CUSTOM__ ) run_spgemm_custom_inspection(state);
+         if ( state.type == KernelType::SPGEMM__ && state.implementation == KernelImplementation::MKL__ )    run_spgemm_mkl_inspection(state);
+    else if ( state.type == KernelType::SPGEMM__ && state.implementation == KernelImplementation::CUSTOM__ ) run_spgemm_custom_inspection(state);
     else {
-        std::cerr << "kernel not implemented for type: " << type << " and implementation: " << implementation << std::endl;
+        std::cerr << "kernel not implemented for type: " << state.type << " and implementation: " << state.implementation << std::endl;
         exit(1);
     }
 }
 
-void _run_execution(CPUGEMMRunnerState &state, KernelType type, KernelImplementation implementation) {
+void _run_execution(CPUGEMMRunnerState &state) {
     // dispatch the appropiate kernel execution phase
-         if ( type == KernelType::SPGEMM__ && implementation == KernelImplementation::MKL__ )    run_spgemm_mkl_execution(state);
-    else if ( type == KernelType::SPGEMM__ && implementation == KernelImplementation::CUSTOM__ ) run_spgemm_custom_execution(state);
+         if ( state.type == KernelType::SPGEMM__ && state.implementation == KernelImplementation::MKL__ )    run_spgemm_mkl_execution(state);
+    else if ( state.type == KernelType::SPGEMM__ && state.implementation == KernelImplementation::CUSTOM__ ) run_spgemm_custom_execution(state);
     else {
-        std::cerr << "kernel not implemented for type: " << type << " and implementation: " << implementation << std::endl;
+        std::cerr << "kernel not implemented for type: " << state.type << " and implementation: " << state.implementation << std::endl;
         exit(1);
     }
 }
 
-void run_kernel(CPUGEMMRunnerState &state, KernelType type, KernelImplementation implementation) {
-    _run_inspection(state, type, implementation);
-    _run_execution(state, type, implementation);
+void run_kernel(CPUGEMMRunnerState &state) {
+    _run_inspection(state);
+    _run_execution(state);
 }
 
 
