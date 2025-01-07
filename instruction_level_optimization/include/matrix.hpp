@@ -28,12 +28,18 @@ enum MatrixFormat {
     BCCS
 };
 
+enum MatrixOrder {
+    ROW_MAJOR = 0,
+    COLUMN_MAJOR
+};
+
 /*
 Dense storage format for regular matrices
 */
 struct DenseMatrix {
     int32_t num_rows, num_columns;
     double *values;
+    MatrixOrder order;
 
     size_t mem_size_b() {
         return num_rows * num_columns * sizeof(double);
@@ -234,3 +240,7 @@ into different formats
 */
 GraphMatrix load_mtx_file_into_graph(const std::string &file_path, Arena *arena);
 CRSMatrix load_mtx_file_into_crs(const std::string &file_path, Arena *arena);
+
+void destroy_crs_matrix(CRSMatrix &matrix);
+void destroy_dense_matrix(DenseMatrix &matrix);
+void destroy_graph_matrix(GraphMatrix &matrix);

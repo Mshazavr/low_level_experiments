@@ -26,7 +26,7 @@ CRSMatrix _graph_to_crs(GraphMatrix &matrix, Arena *arena) {
         row_start = (int32_t *)malloc(( matrix.num_rows + 1 ) * sizeof(int32_t));
     }
 
-    std::vector< int32_t> indices(matrix.num_values);
+    std::vector<int32_t> indices(matrix.num_values);
     for(int32_t i = 0; i < matrix.num_values; ++i) {
         indices[i] = i;
     }
@@ -58,7 +58,9 @@ CRSMatrix _graph_to_crs(GraphMatrix &matrix, Arena *arena) {
             current_row = row;
         }
     }
-    row_start[matrix.num_rows] = matrix.num_values;
+    for (int32_t j = current_row + 1; j <= matrix.num_rows; ++j) {
+        row_start[matrix.num_rows] = matrix.num_values;
+    }
 
     return {
         .num_rows = matrix.num_rows,
@@ -99,7 +101,7 @@ GraphMatrix load_mtx_file_into_graph(const std::string &file_path, Arena *arena)
             iss >> num_rows >> num_columns >> num_values;
 
             if (arena) {
-                values  =  (double *)arena_alloc_aligned(*arena, num_values * sizeof(double), alignof(double));
+                values  =  (double *)arena_alloc_aligned(*arena, num_values * sizeof(double),  alignof(double));
                 rows    = (int32_t *)arena_alloc_aligned(*arena, num_values * sizeof(int32_t), alignof(int32_t));
                 columns = (int32_t *)arena_alloc_aligned(*arena, num_values * sizeof(int32_t), alignof(int32_t));
             }
@@ -132,5 +134,23 @@ GraphMatrix load_mtx_file_into_graph(const std::string &file_path, Arena *arena)
 CRSMatrix load_mtx_file_into_crs(const std::string &file_path, Arena *arena) {
     _debug("loading %s into CRSMatrix", file_path.c_str());
     GraphMatrix graph_matrix = load_mtx_file_into_graph(file_path, arena);
-    return _graph_to_crs(graph_matrix, arena);
+    CRSMatrix crs_matrix = _graph_to_crs(graph_matrix, arena);
+    destroy_graph_matrix(graph_matrix);
+    return crs_matrix;
+}
+
+void destroy_crs_matrix(CRSMatrix &matrix) {
+    free(matrix.columns);
+    free(matrix.row_start);
+    free(matrix.values);
+}
+
+void destroy_dense_matrix(DenseMatrix &matrix) {
+    free(matrix.values);
+}
+
+void destroy_graph_matrix(GraphMatrix &matrix) {
+    free(matrix.values);
+    free(matrix.rows);
+    free(matrix.columns);
 }

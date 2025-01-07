@@ -35,20 +35,27 @@ struct CPUGEMMRunnerState {
     KernelImplementation implementation;
 
     // the left sparse or dense matrix in the product
-    crs_matrix_f64 matrix_A;
+    crs_matrix_f64 sparse_matrix_A;
+    dense_matrix_f64 dense_matrix_A;
 
     // the right sparse or dense matix in the product
-    crs_matrix_f64 matrix_B;
+    crs_matrix_f64 sparse_matrix_B;
+    dense_matrix_f64 dense_matrix_B;
 
     // the vector in the matrix-vector product 
     double *vector_b; 
 
-    // handles used by mkl for matrix-matrix products
-    sparse_matrix_t mkl_matrix_A;
-    sparse_matrix_t mkl_matrix_B;
-
     // sparse or dense result matrix
-    crs_matrix_f64 matrix_C;
+    crs_matrix_f64 sparse_matrix_C;
+    dense_matrix_f64 dense_matrix_C;
+
+    // result vector 
+    double *vector_c;
+
+    // handles used by mkl for the sparse matrices
+    sparse_matrix_t sparse_mkl_matrix_A;
+    sparse_matrix_t sparse_mkl_matrix_B;
+    sparse_matrix_t sparse_mkl_matrix_C;
 
     int32_t inspection_time_ms;
     int32_t execution_time_ms;
@@ -57,3 +64,5 @@ struct CPUGEMMRunnerState {
 void run_kernel(CPUGEMMRunnerState &state);
 
 CPUGEMMRunnerState create_runner_state(KernelType type, KernelImplementation implementation, const std::string &file_path);
+
+void destroy_runner_state(CPUGEMMRunnerState &state);
