@@ -13,6 +13,7 @@ namespace formats {
     const char *PURPLE = "\033[0;35m";
     const char *LIGHT_GRAY = "\033[0;37m";
     const char *ITALIC = "\033[3m";
+    const char *BOLD = "\033[1m";
     const char *END = "\033[0m";
 }
 

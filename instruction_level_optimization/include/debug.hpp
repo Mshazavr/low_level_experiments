@@ -11,6 +11,7 @@ namespace formats {
     extern const char *PURPLE;
     extern const char *LIGHT_GRAY;
     extern const char *ITALIC;
+    extern const char *BOLD;
     extern const char *END;
 }
 

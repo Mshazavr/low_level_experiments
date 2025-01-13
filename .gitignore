@@ -5,6 +5,7 @@ instruction_level_optimization/build/
 instruction_level_optimization/data/
 scratch/
 .vscode/
+dlmc/
 dump.md
 papers.md
 thesis_ideas.md

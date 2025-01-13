@@ -21,11 +21,18 @@ enum KernelType {
     // sparse matrix * sparse matrix
     SPGEMM__
 };
+inline constexpr std::string_view KernelTypeNames[] = {
+    "DGEMV", "DGEMM", "SPMV", "SPMM", "SPGEMM"
+};
 
 
 enum KernelImplementation {
-    CUSTOM__ = 0,
-    MKL__
+    NAIVE__ = 0,
+    MKL__,
+    CUSTOM__
+};
+inline constexpr std::string_view KernelImplementationNames[] = {
+    "NAIVE", "MKL", "CUSTOM"
 };
 
 
@@ -36,6 +43,7 @@ struct CPUGEMMRunnerState {
 
     // the left sparse or dense matrix in the product
     crs_matrix_f64 sparse_matrix_A;
+    ccs_matrix_f64 sparse_ccs_matrix_A;
     dense_matrix_f64 dense_matrix_A;
 
     // the right sparse or dense matix in the product
@@ -57,10 +65,17 @@ struct CPUGEMMRunnerState {
     sparse_matrix_t sparse_mkl_matrix_B;
     sparse_matrix_t sparse_mkl_matrix_C;
 
+    // ccs to crs permutation map
+    // can be computed during inspection
+    int32_t *ccs_to_crs_map;
+
     int32_t inspection_time_ms;
     int32_t execution_time_ms;
+    int32_t ticks[10]; // useful for timing different portions of the kernel
 };
 
+void run_inspection(CPUGEMMRunnerState &state);
+void run_execution(CPUGEMMRunnerState &state);
 void run_kernel(CPUGEMMRunnerState &state);
 
 CPUGEMMRunnerState create_runner_state(KernelType type, KernelImplementation implementation, const std::string &file_path);

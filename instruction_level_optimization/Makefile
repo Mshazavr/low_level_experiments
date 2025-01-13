@@ -1,5 +1,6 @@
 compiler = g++ 
-flags = -ggdb -march=native -DDEBUG -I./include -I${MKLROOT}/include -L${MKLROOT}/lib
+# -DDEBUG flag for debug outputs
+flags = -ggdb -march=native -I./include -I${MKLROOT}/include -L${MKLROOT}/lib
 libs = -lmkl_intel_lp64 -lmkl_core -lmkl_intel_thread -liomp5 -lpthread -lm
 obj_dir = build
 bin_dir = bin
@@ -12,7 +13,8 @@ objects = arena_allocator.o \
 		  run_info.o \
 		  cpu_gemm_runner.o \
 		  custom_kernels.o \
-		  mkl_kernels.o
+		  mkl_kernels.o \
+		  naive_kernels.o
 
 binaries = cpu_gemm
 test_binaries = cpu_gemm_tests
@@ -53,6 +55,7 @@ run_info.o: src/run_info.cpp
 cpu_gemm_runner.o: src/cpu_gemm/cpu_gemm_runner.cpp
 custom_kernels.o: src/cpu_gemm/custom_kernels.cpp
 mkl_kernels.o: src/cpu_gemm/mkl_kernels.cpp
+naive_kernels.o: src/cpu_gemm/naive_kernels.cpp
 
 cpu_gemm: $(objects)
 	$(compiler) $(flags) src/cpu_gemm/main.cpp -o $(bin_dir)/cpu_gemm $(addprefix $(obj_dir)/, $(objects)) $(libs)

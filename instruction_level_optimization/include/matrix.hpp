@@ -230,9 +230,12 @@ typedef BCRSMatrix  bcrs_matrix_f64;
 typedef BCCSMatrix  bccs_matrix_f64;
 
 
+std::string get_file_type_from_name(std::string file_path);
 
 
 CRSMatrix _graph_to_crs(GraphMatrix &matrix, Arena *arena);
+CCSMatrix _graph_to_ccs(GraphMatrix &matrix, Arena *arena);
+GraphMatrix _crs_to_graph(CRSMatrix &matrix, Arena *arena);
 
 /*
 Entrypoint functions for loading .mtx files (matrix market file) 
@@ -240,7 +243,14 @@ into different formats
 */
 GraphMatrix load_mtx_file_into_graph(const std::string &file_path, Arena *arena);
 CRSMatrix load_mtx_file_into_crs(const std::string &file_path, Arena *arena);
+CRSMatrix load_smtx_file_into_crs(const std::string &file_path, Arena *arena);
+CCSMatrix load_mtx_file_into_ccs(const std::string &file_path, Arena *arena);
+
+GraphMatrix load_file_into_graph(const std::string &file_path, Arena *arena);
+CRSMatrix load_file_into_crs(const std::string &file_path, Arena *arena);
+CCSMatrix load_file_into_ccs(const std::string &file_path, Arena *arena);
 
 void destroy_crs_matrix(CRSMatrix &matrix);
+void destroy_ccs_matrix(CCSMatrix &matrix);
 void destroy_dense_matrix(DenseMatrix &matrix);
 void destroy_graph_matrix(GraphMatrix &matrix);

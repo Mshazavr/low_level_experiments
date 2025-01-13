@@ -1,5 +1,6 @@
 #include <string>
 #include <mkl.h>
+#include <iostream>
 #include <mkl_spblas.h>
 
 #include "mkl_kernels.hpp"
@@ -62,8 +63,8 @@ void run_spgemm_mkl_execution(CPUGEMMRunnerState &state) {
 }
 
 CPUGEMMRunnerState create_spgemm_mkl_state(std::string matrix_file_path) {
-    crs_matrix_f64 matrix_A = load_mtx_file_into_crs(matrix_file_path, NULL);
-    crs_matrix_f64 matrix_B = load_mtx_file_into_crs(matrix_file_path, NULL);
+    crs_matrix_f64 matrix_A = load_file_into_crs(matrix_file_path, NULL);
+    crs_matrix_f64 matrix_B = load_file_into_crs(matrix_file_path, NULL);
 
     sparse_matrix_t mkl_matrix_A;
     sparse_matrix_t mkl_matrix_B;
@@ -140,8 +141,8 @@ void run_spmv_mkl_execution(CPUGEMMRunnerState &state) {
 }
 
 CPUGEMMRunnerState create_spmv_mkl_state(std::string matrix_file_path) {
-    crs_matrix_f64 matrix_A = load_mtx_file_into_crs(matrix_file_path, NULL);
-    
+    crs_matrix_f64 matrix_A = load_file_into_crs(matrix_file_path, NULL);
+     
     sparse_matrix_t mkl_matrix_A;
 
     mkl_sparse_d_create_csr(
@@ -219,7 +220,7 @@ void run_spmm_mkl_execution(CPUGEMMRunnerState &state) {
 }
 
 CPUGEMMRunnerState create_spmm_mkl_state(std::string matrix_file_path) {
-    crs_matrix_f64 matrix_A = load_mtx_file_into_crs(matrix_file_path, NULL);
+    crs_matrix_f64 matrix_A = load_file_into_crs(matrix_file_path, NULL);
     
     sparse_matrix_t mkl_matrix_A;
 
